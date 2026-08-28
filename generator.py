@@ -1,3 +1,6 @@
+import torch
+from torch import nn
+
 class Swish(nn.Module):
     def forward(self, feat):
         return feat * torch.sigmoid(feat)
@@ -99,9 +102,12 @@ class FastGANGenerator(nn.Module):
         nn.Tanh()
     )
 
+  def normalizeSecondMoment(self, x, dim=1, eps=1e-8):
+    return x * (x.square().mean(dim=dim, keepdim=True) + eps).rsqrt()
+
   def forward(self, x):
 
-    x = normalizeSecondMoment(x)
+    x = self.normalizeSecondMoment(x)
 
     feat4 = self.initial_block(x)
 
