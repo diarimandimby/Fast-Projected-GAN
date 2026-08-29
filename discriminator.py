@@ -152,7 +152,7 @@ class ProjectedGANDiscriminator(nn.Module):
     with torch.no_grad():
       features = self.feature_extractor(x)
       features = [f.detach() for f in features]
-
+      
     x = None
 
     logits = []
@@ -163,6 +163,6 @@ class ProjectedGANDiscriminator(nn.Module):
 
       logits.append(self.discriminators[3 - i](x))
 
-    logits = torch.cat(logits, dim=1).to(device)
+    logits = torch.cat(logits, dim=1)
 
     return logits
