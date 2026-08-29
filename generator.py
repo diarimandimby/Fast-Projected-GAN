@@ -58,9 +58,10 @@ class FastGANGenerator(nn.Module):
     multiplier_dict = {4: 16, 8: 8, 16: 4, 32: 2, 64: 2, 128: 1, 256: 0.5, 512: 0.25, 1024: 0.125}
 
     self.channels = []
+    self.output_res = output_res
 
     for _, resolution in enumerate(multiplier_dict):
-      if(resolution <= output_res):
+      if(resolution <= self.output_res):
         self.channels.append(int(multiplier_dict[resolution] * 64))
 
     l = len(self.channels)
@@ -117,16 +118,16 @@ class FastGANGenerator(nn.Module):
 
     feat64 = self.skip_layer_excitation[0](feat4, self.upblocks[3](feat32))
 
-    if(output_res >= 128):
+    if(self.output_res >= 128):
       feat_last = self.skip_layer_excitation[1](feat8, self.upblocks[4](feat64))
 
-    if(output_res >= 256):
+    if(self.output_res >= 256):
       feat_last = self.skip_layer_excitation[2](feat16, self.upblocks[5](feat_last))
 
-    if(output_res >= 512):
+    if(self.output_res >= 512):
       feat_last = self.upblocks[6](feat_last)
 
-    if(output_res >= 1024):
+    if(self.output_res >= 1024):
       feat_last = self.upblocks[7](feat_last)
 
     return self.final_block(feat_last)
