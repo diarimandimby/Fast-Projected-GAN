@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import timm
 from DiffAugment_pytorch import DiffAugment
+import torch.nn.functional as F
 
 class DownBlock(nn.Module):
   def __init__(self, c_in, c_out):
@@ -140,19 +141,16 @@ class ProjectedGANDiscriminator(nn.Module):
         DiscriminatorL4(out_channels[3]//2)
     ])
 
-  def forward(self, x, interpolate=False):
+  def forward(self, x, diffaug=True, interpolate=False):
 
-    x = DiffAugment(x, policy='color,translation,cutout')
+    if(diffaug):
+      x = DiffAugment(x, policy='color,translation,cutout')
 
     if(interpolate):
-
-      x = F.interpolate(x, 64, mode='bilinear', align_corners=False)
+      x = F.interpolate(x, 224, mode='bilinear', align_corners=False)
 
     with torch.no_grad():
-      x = (x + 1) / 2
-      mean = [0.485, 0.456, 0.406]
-      std = [0.229, 0.224, 0.225]
-      features = self.feature_extractor((x - torch.tensor(mean).view(-1, 1, 1).to(device)) / torch.tensor(std).view(-1, 1, 1).to(device))
+      features = self.feature_extractor(x)
       features = [f.detach() for f in features]
 
     x = None
