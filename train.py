@@ -22,9 +22,9 @@ def createData(paths, output_res):
   list_images = []
   for file in pbar:
     image = Image.open(file).convert("RGB")
-
+    
     tensor_image = transform(image)
-
+    
     list_images.append(2 * tensor_image - 1)
 
     nb_img = len(list_images)
