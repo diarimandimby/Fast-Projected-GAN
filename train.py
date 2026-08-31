@@ -9,6 +9,8 @@ from PIL import Image
 from generator import FastGANGenerator
 from discriminator import ProjectedGANDiscriminator
 
+device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
+
 def createData(paths, output_res):
   transform = transforms.Compose([
     transforms.Resize((output_res, output_res)),
@@ -21,7 +23,7 @@ def createData(paths, output_res):
   for file in pbar:
     image = Image.open(file).convert("RGB")
 
-    tensor_image = transform(image).to(device)
+    tensor_image = transform(image)
 
     list_images.append(2 * tensor_image - 1)
 
@@ -29,7 +31,7 @@ def createData(paths, output_res):
 
     pbar.set_postfix({"list_len": f"{nb_img}"})
   
-  tensor_images = torch.stack(list_images)
+  tensor_images = torch.stack(list_images).to(device)
 
 def createDataLoader(paths, output_res, batch_size, shuffle=True):
   return DataLoader(
