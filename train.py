@@ -9,13 +9,12 @@ from PIL import Image
 from generator import FastGANGenerator
 from discriminator import ProjectedGANDiscriminator
 
-def transform():
-  return transforms.Compose([
+def createData(paths, output_res):
+  transform = transforms.Compose([
     transforms.Resize((output_res, output_res)),
     transforms.ToTensor()
   ])
-
-def createData(paths):
+  
   pbar = tqdm(paths, desc="Prétraitements des images")
   nb_img = 0
   list_images = []
@@ -32,9 +31,9 @@ def createData(paths):
   
   tensor_images = torch.stack(list_images)
 
-def createDataLoader(paths, batch_size, shuffle=True):
+def createDataLoader(paths, output_res, batch_size, shuffle=True):
   return DataLoader(
-    createData(paths),
+    createData(paths, output_res),
     batch_size=batch_size,
     shuffle=shuffle
   )
@@ -44,7 +43,7 @@ def train(
   data_loader, 
   device, 
   checkpoint_path, 
-  output_res=256, 
+  output_res, 
   glr=0.0002, 
   dlr=0.0002, 
   betas=(0.0, 0.99), 
