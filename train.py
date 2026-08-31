@@ -31,7 +31,7 @@ def createData(paths, output_res):
 
     pbar.set_postfix({"list_len": f"{nb_img}"})
   
-  tensor_images = torch.stack(list_images).to(device)
+  return torch.stack(list_images).to(device)
 
 def createDataLoader(paths, output_res, batch_size, shuffle=True):
   return DataLoader(
