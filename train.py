@@ -76,7 +76,7 @@ def train(
     # Définir une variance qui décroît au fil des époques (ex: démarre à 0.2, baisse vers 0)
     decaying_noise = r * (0.9999 ** epoch)
     
-    for i, real_images in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}"))
+    for i, real_images in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}")):
 
       # --------------------------------------------
       # Entraînement du Discriminateur
