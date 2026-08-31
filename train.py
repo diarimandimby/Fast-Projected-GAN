@@ -42,8 +42,7 @@ def createDataLoader(paths, output_res, batch_size, shuffle=True):
 
 def train(
   n_epochs, 
-  data_loader, 
-  device, 
+  data_loader,
   checkpoint_path, 
   output_res, 
   glr=0.0002, 
