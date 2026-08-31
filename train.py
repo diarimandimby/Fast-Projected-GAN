@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from generator import FastGANGenerator
 from discriminator import ProjectedGANDiscriminator
+from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 
 device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
 
