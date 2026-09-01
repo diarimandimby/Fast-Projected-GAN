@@ -133,11 +133,6 @@ def train(
       with torch.no_grad():
         sample_images = gen_ema(test_latents)
 
-      if 'old_samples' in locals():
-        diff = torch.abs(sample_images - old_samples).mean().item()
-        print(f"\n[DIAGNOSTIC] Différence numérique réelle avec l'époque précédente : {diff}")
-      old_samples = sample_images.clone()
-
       fig, axes = plt.subplots(1, 4, figsize=(8, 2))
       for ncol in range(4):
         outputs = (sample_images[ncol] + 1) /2
@@ -146,14 +141,14 @@ def train(
         axes[ncol].axis('off')
       plt.show()
 
-  if((epoch + 1) % sfr == 0):
-    torch.save({
-      'epoch': epoch + 1,
-      'generator': generator.state_dict(),
-      'discriminator': discriminator.state_dict(),
-      'gen_ema': gen_ema.state_dict(),
-      'opt_G': opt_G.state_dict(),
-      'opt_D': opt_D.state_dict(),
-    }, f'{checkpoint_path}/Faster_pg_checkpoint_epoch_{epoch + 1}.pth')
+    if((epoch + 1) % sfr == 0):
+      torch.save({
+        'epoch': epoch + 1,
+        'generator': generator.state_dict(),
+        'discriminator': discriminator.state_dict(),
+        'gen_ema': gen_ema.state_dict(),
+        'opt_G': opt_G.state_dict(),
+        'opt_D': opt_D.state_dict(),
+      }, f'{checkpoint_path}/Faster_pg_checkpoint_epoch_{epoch + 1}.pth')
 
-  print(f"g_loss : {G_loss.item()}, dgen_loss : {Dgen_loss.item()}, dreal_loss : {Dreal_loss.item()}")
+    print(f"g_loss : {G_loss.item()}, dgen_loss : {Dgen_loss.item()}, dreal_loss : {Dreal_loss.item()}")
