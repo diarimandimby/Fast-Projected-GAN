@@ -83,7 +83,8 @@ class CCM(nn.Module):
 
     torch.nn.init.kaiming_normal_(self.conv.weight, a=0, mode='fan_in', nonlinearity='linear')
 
-    self.conv.weight.requires_grad = False
+    for param in self.conv.parameters():
+      param.requires_grad = False
 
   def forward(self, input):
     return self.conv(input)
@@ -97,7 +98,8 @@ class CSM(nn.Module):
 
     torch.nn.init.kaiming_normal_(self.conv.weight, a=0, mode='fan_in', nonlinearity='leaky_relu')
 
-    self.conv.weight.requires_grad = False
+    for param in self.conv.parameters():
+      param.requires_grad = False
 
   def forward(self, x, y):
     output = x
@@ -151,7 +153,6 @@ class ProjectedGANDiscriminator(nn.Module):
 
     with torch.no_grad():
       features = self.feature_extractor(x)
-      features = [f.detach() for f in features]
       
     x = None
 
