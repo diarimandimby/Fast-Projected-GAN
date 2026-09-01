@@ -78,7 +78,6 @@ def train(
   
   for epoch in range(n_epochs):
     # Définir une variance qui décroît au fil des époques (ex: démarre à 0.2, baisse vers 0)
-    decaying_noise = r * (0.9999 ** epoch)
     
     for i, real_images in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}")):
 
@@ -88,8 +87,8 @@ def train(
 
       opt_D.zero_grad()
 
-      if decaying_noise > 0:
-        real_images = real_images + torch.randn_like(real_images) * decaying_noise
+      if r > 0:
+        real_images = real_images + torch.randn_like(real_images) * r
 
       real_logits = discriminator(real_images)
 
@@ -97,8 +96,8 @@ def train(
       with torch.no_grad():
         fake_images = generator(latent_vectors)
 
-      if decaying_noise > 0:
-        fake_images = fake_images + torch.randn_like(fake_images) * decaying_noise
+      if r > 0:
+        fake_images = fake_images + torch.randn_like(fake_images) * r
 
       fake_logits = discriminator(fake_images.detach())
 
