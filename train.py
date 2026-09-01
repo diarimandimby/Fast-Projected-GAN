@@ -46,7 +46,8 @@ def train(
   n_epochs,
   batch_size,
   data_loader,
-  checkpoint_path, 
+  checkpoint_path,
+  iterations_per_epoch,
   output_res, 
   glr=0.0002, 
   dlr=0.0002, 
@@ -75,11 +76,15 @@ def train(
     k = 0
   
   test_latents = torch.randn(4, 256, 1, 1).to(device)
+
+  infinite_loader = cycle(data_loader)
   
-  for epoch in range(n_epochs):
+  for epoch in range(k, n_epochs):
     # Définir une variance qui décroît au fil des époques (ex: démarre à 0.2, baisse vers 0)
     
-    for i, real_images in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}")):
+    for step in tqdm(range(iterations_per_epoch), desc=f"Epoch {epoch}"):
+
+      real_images = next(infinite_loader) 
 
       # --------------------------------------------
       # Entraînement du Discriminateur
