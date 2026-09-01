@@ -91,7 +91,17 @@ class FastGANGenerator(nn.Module):
           ))
 
         self.skip_layer_excitation = nn.ModuleList()
-        for i in range(3):
+
+        if(self.output_res >= 256):
+            k = 3
+        elif(self.output_res == 128):
+            k = 2
+        elif(self.output_res == 128):
+            k = 1
+        else:
+            k = 0
+            
+        for i in range(k):
             c_in = self.channels[i]
             c_out = self.channels[i + 4]
             self.skip_layer_excitation.append(SkipLayerExcitation(c_in, c_out))
