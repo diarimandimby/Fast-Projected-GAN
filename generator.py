@@ -96,7 +96,7 @@ class FastGANGenerator(nn.Module):
             k = 3
         elif(self.output_res == 128):
             k = 2
-        elif(self.output_res == 128):
+        elif(self.output_res == 64):
             k = 1
         else:
             k = 0
