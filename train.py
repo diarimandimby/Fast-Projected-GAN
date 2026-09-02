@@ -54,16 +54,11 @@ def addRandomGaussianNoise(tensor_images, noise_sigma_range):
     noise = torch.randn(1, tensor_images.shape[2], tensor_images.shape[3])*sigma
     noise = noise.repeat(tensor_images.shape[0], 3, 1, 1)
     t = tensor_images + noise.to(device)
-  
   return t
 
 def addRandomGaussianBlur(tensor_images, sigma_range):
   kernel_size = random.randint(5, 21)
-  sigma1 = random.uniform(sigma_range[0], sigma_range[1])
-  sigma2 = random.uniform(sigma_range[0], sigma_range[1])
-  
-  blur_transform = GaussianBlur(kernel_size=kernel_size, sigma=(sigma1, sigma2))
-  
+  blur_transform = GaussianBlur(kernel_size=kernel_size, sigma=(sigma_range[0], sigma_range[1]))
   return blur_transform(tensor_images)
 
 def train(
