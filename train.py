@@ -58,6 +58,8 @@ def addRandomGaussianNoise(tensor_images, noise_sigma_range):
 
 def addRandomGaussianBlur(tensor_images, sigma_range):
   kernel_size = random.randint(5, 21)
+  if(kernel_size % 2 == 0):
+    kernel_size += 1
   blur_transform = GaussianBlur(kernel_size=kernel_size, sigma=(sigma_range[0], sigma_range[1]))
   return blur_transform(tensor_images)
 
