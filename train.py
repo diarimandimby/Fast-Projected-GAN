@@ -11,6 +11,7 @@ from discriminator import ProjectedGANDiscriminator
 from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 import torch.nn.functional as F
 import random
+from torchvision.transforms.v2 import GaussianBlur
 
 device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
 
@@ -56,6 +57,15 @@ def addRandomGaussianNoise(tensor_images, noise_sigma_range):
   
   return t
 
+def addRandomGaussianBlur(tensor_images, sigma_range):
+  kernel_size = random.randint(5, 21)
+  sigma1 = random.uniform(sigma_range[0], sigma_range[1])
+  sigma2 = random.uniform(sigma_range[0], sigma_range[1])
+  
+  blur_transform = GaussianBlur(kernel_size=kernel_size, sigma=(sigma1, sigma2))
+  
+  return blur_transform(tensor_images)
+
 def train(
   n_epochs,
   batch_size,
@@ -100,6 +110,7 @@ def train(
       opt_D.zero_grad()
 
       real_images = addRandomGaussianNoise(real_images, [30, 50])
+      real_images = addRandomGaussianBlur(real_images, [0.2, 3])
 
       real_logits = discriminator(real_images)
 
@@ -108,6 +119,7 @@ def train(
         fake_images = generator(latent_vectors)
 
       fake_images = addRandomGaussianNoise(fake_images, [30, 50])
+      fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images.detach())
 
