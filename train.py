@@ -43,16 +43,16 @@ def createDataLoader(paths, output_res, batch_size, shuffle=True):
     shuffle=shuffle
   )
 
-def addRandomGaussianNoise(tensor_image, noise_sigma_range):
+def addRandomGaussianNoise(tensor_images, noise_sigma_range):
   """ Ajoute du bruit. """
   color = random.randint(0, 1)
   sigma = random.uniform(noise_sigma_range[0], noise_sigma_range[1])
   if(color):
-    t = tensor_image + torch.randn_like(tensor_image)*sigma
+    t = tensor_images + torch.randn_like(tensor_images)*sigma
   else:
-    noise = torch.randn(1, tensor.shape[2], tensor.shape[3])*sigma
-    noise = noise.repeat(tensor.shape[0], 3, 1, 1)
-    t = tensor_image + noise.to(device)
+    noise = torch.randn(1, tensor_images.shape[2], tensor_images.shape[3])*sigma
+    noise = noise.repeat(tensor_images.shape[0], 3, 1, 1)
+    t = tensor_images + noise.to(device)
   
   return t
 
@@ -65,8 +65,7 @@ def train(
   glr=0.0002, 
   dlr=0.0002, 
   betas=(0.0, 0.99), 
-  eps=1e-8, 
-  r=0.8, 
+  eps=1e-8,
   pfr=1, 
   sfr=100, 
   checkpoint_file=''
