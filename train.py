@@ -75,8 +75,6 @@ def train(
     k = 0
   
   test_latents = torch.randn(4, 256, 1, 1).to(device)
-
-  infinite_loader = cycle(data_loader)
   
   for epoch in range(k, n_epochs):
     
