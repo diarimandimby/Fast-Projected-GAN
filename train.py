@@ -138,6 +138,8 @@ def train(
       latent_vectors = torch.randn(batch_size, 256, 1, 1).to(device)
       fake_images = generator(latent_vectors)
 
+      fake_images.requires_grad_()
+
       #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
       #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
