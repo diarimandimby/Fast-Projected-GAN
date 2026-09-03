@@ -104,7 +104,7 @@ def train(
       # Entraînement du Discriminateur
       # --------------------------------------------
 
-      """opt_D.zero_grad()
+      opt_D.zero_grad()
 
       #real_images = addRandomGaussianNoise(real_images, [30, 50])
       #real_images = addRandomGaussianBlur(real_images, [0.2, 3])
@@ -127,7 +127,7 @@ def train(
 
       D_loss.backward()
 
-      opt_D.step()"""
+      opt_D.step()
 
       # --------------------------------------------
       # Entraînement du Générateur
@@ -155,10 +155,10 @@ def train(
 
       G_loss.backward()
 
-      print(generator.initial_block[0].weight.grad)
+      print(generator.initial_block[0].weight_orig.grad)
       
       opt_G.step()
-      #gen_ema.update_parameters(generator)
+      gen_ema.update_parameters(generator)
 
     if((epoch + 1) % pfr == 0):
 
