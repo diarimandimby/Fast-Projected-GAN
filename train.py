@@ -115,8 +115,8 @@ def train(
       with torch.no_grad():
         fake_images = generator(latent_vectors)
 
-      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
+      fake_images = addRandomGaussianNoise(fake_images, [30, 50])
+      fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images.detach())
 
@@ -144,8 +144,8 @@ def train(
       print("Les features ont un graphe ?", test_feat[0].requires_grad)
 
 
-      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
+      fake_images = addRandomGaussianNoise(fake_images, [30, 50])
+      fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images)
 
