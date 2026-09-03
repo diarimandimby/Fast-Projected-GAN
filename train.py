@@ -125,7 +125,7 @@ def train(
 
       D_loss = Dgen_loss + Dreal_loss
 
-      D_loss.backward()
+      D_loss.backward(retain_graph=True)
 
       opt_D.step()
 
@@ -138,12 +138,6 @@ def train(
       latent_vectors = torch.randn(batch_size, 256, 1, 1).to(device)
       fake_images = generator(latent_vectors)
 
-      print("Fake images a un graphe ?", fake_images.requires_grad)
-      # Allez chercher les features en sortant l'extracteur pour tester :
-      test_feat = discriminator.feature_extractor(fake_images)
-      print("Les features ont un graphe ?", test_feat[0].requires_grad)
-
-
       fake_images = addRandomGaussianNoise(fake_images, [30, 50])
       fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
@@ -152,8 +146,6 @@ def train(
       G_loss = -torch.mean(fake_logits)
 
       G_loss.backward()
-
-      print(generator.initial_block[0].parametrizations.weight.original.grad)
       
       opt_G.step()
       gen_ema.update_parameters(generator)
