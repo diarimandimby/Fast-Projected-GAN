@@ -149,7 +149,7 @@ def train(
 
       G_loss.backward()
 
-      print(generator.initial_block[0][0].weight.grad)
+      print(generator.initial_block[0].weight.grad)
       
       opt_G.step()
       gen_ema.update_parameters(generator)
