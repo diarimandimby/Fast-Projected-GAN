@@ -164,6 +164,6 @@ class ProjectedGANDiscriminator(nn.Module):
 
       logits.append(self.discriminators[3 - i](x))
 
-    logits = torch.cat(logits, dim=1)
+    #logits = torch.cat(logits, dim=1)
 
-    return logits
+    return logits[0] + logits[1] + logits[2] + logits[3]
