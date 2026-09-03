@@ -81,7 +81,7 @@ class CCM(nn.Module):
     super(CCM, self).__init__()
     self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1))
 
-    torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
+    #torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
     
     for param in self.conv.parameters():
       param.requires_grad = False
@@ -96,7 +96,7 @@ class CSM(nn.Module):
 
     self.skip_add = nn.quantized.FloatFunctional()
 
-    torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
+    #torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
     
     for param in self.conv.parameters():
       param.requires_grad = False
