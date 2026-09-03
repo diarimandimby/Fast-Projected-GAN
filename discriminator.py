@@ -79,7 +79,7 @@ class DiscriminatorL4(nn.Module):
 class CCM(nn.Module):
   def __init__(self, in_channels, out_channels):
     super(CCM, self).__init__()
-    self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1))
+    self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1), stride=1, padding=0, bias=True)
 
     #torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
     
@@ -92,7 +92,7 @@ class CCM(nn.Module):
 class CSM(nn.Module):
   def __init__(self, in_channels, out_channels):
     super(CSM, self).__init__()
-    self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(3, 3), padding=1)
+    self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1), stride=1, padding=0, bias=True, groups=1)
 
     self.skip_add = nn.quantized.FloatFunctional()
 
