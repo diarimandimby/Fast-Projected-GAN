@@ -127,6 +127,8 @@ class ProjectedGANDiscriminator(nn.Module):
     for param in self.feature_extractor.parameters():
       param.requires_grad = False
 
+    self.feature_extractor.eval()
+
     in_channels = [24, 40, 112, 320]
 
     out_channels = [64, 128, 256, 512]
