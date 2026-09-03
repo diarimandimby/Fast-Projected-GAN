@@ -149,7 +149,7 @@ class ProjectedGANDiscriminator(nn.Module):
       x = DiffAugment(x, policy='color,translation,cutout')
 
     if(interpolate):
-      x = F.interpolate(x, 256, mode='bilinear', align_corners=False)
+      x = F.interpolate(x, 224, mode='bilinear', align_corners=False)
 
     with torch.no_grad():
       features = self.feature_extractor(x)
