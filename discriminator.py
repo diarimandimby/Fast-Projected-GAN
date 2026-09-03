@@ -118,7 +118,7 @@ class ProjectedGANDiscriminator(nn.Module):
     super(ProjectedGANDiscriminator, self).__init__()
 
     self.feature_extractor = timm.create_model(
-        'tf_efficientnet_lite0.in1k',
+        'tf_efficientnet_lite1.in1k',
         pretrained=True,
         features_only=True,
         out_indices=(1, 2, 3, 4)
