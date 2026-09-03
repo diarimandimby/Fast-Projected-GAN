@@ -157,9 +157,7 @@ class ProjectedGANDiscriminator(nn.Module):
       x = F.interpolate(x, 224, mode='bilinear', align_corners=False)
 
     features = self.feature_extractor(x)
-      
-    x = None
-
+    
     logits = []
 
     for i in range(4):
