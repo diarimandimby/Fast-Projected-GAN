@@ -164,11 +164,9 @@ class ProjectedGANDiscriminator(nn.Module):
 
     for i in range(4):
 
-      x = self.csm[i](self.ccm[3 - i](features[3 - i]), y)
+      y = self.csm[i](self.ccm[3 - i](features[3 - i]), y)
 
-      logits.append(self.discriminators[3 - i](x))
-
-      y = x
+      logits.append(self.discriminators[3 - i](y))
 
     logits = torch.cat(logits, dim=1)
 
