@@ -146,6 +146,9 @@ def train(
       G_loss = -torch.mean(fake_logits)
 
       G_loss.backward()
+
+      print(self.generator.initial_block.weight.grad)
+      
       opt_G.step()
       gen_ema.update_parameters(generator)
 
