@@ -106,8 +106,8 @@ def train(
 
       opt_D.zero_grad()
 
-      #real_images = addRandomGaussianNoise(real_images, [30, 50])
-      #real_images = addRandomGaussianBlur(real_images, [0.2, 3])
+      real_images = addRandomGaussianNoise(real_images, [30, 50])
+      real_images = addRandomGaussianBlur(real_images, [0.2, 3])
 
       real_logits = discriminator(real_images)
 
