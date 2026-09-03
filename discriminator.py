@@ -166,9 +166,7 @@ class ProjectedGANDiscriminator(nn.Module):
 
       x = self.csm[i](self.ccm[3 - i](features[3 - i]), y)
 
-      x = self.discriminators[3 - i](x)
-
-      logits.append(x)
+      logits.append(self.discriminators[3 - i](x))
 
       y = x
 
