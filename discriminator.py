@@ -124,6 +124,9 @@ class ProjectedGANDiscriminator(nn.Module):
         out_indices=(1, 2, 3, 4)
         )
 
+    for param in self.feature_extractor.parameters():
+      param.requires_grad = False
+
     in_channels = [24, 40, 112, 320]
 
     out_channels = [64, 128, 256, 512]
@@ -151,8 +154,7 @@ class ProjectedGANDiscriminator(nn.Module):
     if(interpolate):
       x = F.interpolate(x, 224, mode='bilinear', align_corners=False)
 
-    with torch.no_grad():
-      features = self.feature_extractor(x)
+    features = self.feature_extractor(x)
       
     x = None
 
