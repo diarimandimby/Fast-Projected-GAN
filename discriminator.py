@@ -143,13 +143,13 @@ class ProjectedGANDiscriminator(nn.Module):
         DiscriminatorL4(out_channels[3]//2)
     ])
 
-  def forward(self, x, diffaug=True, interpolate=False):
+  def forward(self, x, diffaug=True, interpolate=True):
 
     if(diffaug):
       x = DiffAugment(x, policy='color,translation,cutout')
 
     if(interpolate):
-      x = F.interpolate(x, 224, mode='bilinear', align_corners=False)
+      x = F.interpolate(x, 256, mode='bilinear', align_corners=False)
 
     with torch.no_grad():
       features = self.feature_extractor(x)
@@ -164,6 +164,6 @@ class ProjectedGANDiscriminator(nn.Module):
 
       logits.append(self.discriminators[3 - i](x))
 
-    #logits = torch.cat(logits, dim=1)
+    logits = torch.cat(logits, dim=1)
 
-    return logits[0] + logits[1] + logits[2] + logits[3]
+    return logits
