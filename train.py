@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 from torch.optim import Adam
-from torchvision import transforms
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -16,19 +15,13 @@ from torchvision.transforms.v2 import GaussianBlur
 device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
 
 def createData(paths, output_res):
-  transform = transforms.Compose([
-    transforms.Resize((output_res, output_res))
-  ])
-  
   pbar = tqdm(paths, desc="Prétraitements des images")
   nb_img = 0
   list_images = []
   for file in pbar:
-    image = Image.open(file).convert("RGB")
+    image = Image.open(file).convert("RGB").resize((output_res, output_res))
     
-    tensor_image = transform(image)
-    
-    list_images.append(tensor_image / 127.5 - 1)
+    list_images.append(image.to(device).to(torch.float32) / 127.5 - 1)
 
     nb_img = len(list_images)
 
