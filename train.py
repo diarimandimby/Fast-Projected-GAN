@@ -98,8 +98,8 @@ def train(
 
       opt_D.zero_grad()
 
-      real_images = addRandomGaussianNoise(real_images, [30, 50])
-      real_images = addRandomGaussianBlur(real_images, [0.2, 3])
+      #real_images = addRandomGaussianNoise(real_images, [30, 50])
+      #real_images = addRandomGaussianBlur(real_images, [0.2, 3])
 
       real_logits = discriminator(real_images)
 
@@ -107,8 +107,8 @@ def train(
       with torch.no_grad():
         fake_images = generator(latent_vectors)
 
-      fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
+      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
+      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images.detach())
 
@@ -129,8 +129,8 @@ def train(
       latent_vectors = torch.randn(batch_size, 256, 1, 1).to(device)
       fake_images = generator(latent_vectors)
 
-      fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
+      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
+      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images)
 
