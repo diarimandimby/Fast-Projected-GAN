@@ -17,8 +17,7 @@ device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('c
 
 def createData(paths, output_res):
   transform = transforms.Compose([
-    transforms.Resize((output_res, output_res)),
-    transforms.ToTensor()
+    transforms.Resize((output_res, output_res))
   ])
   
   pbar = tqdm(paths, desc="Prétraitements des images")
@@ -29,7 +28,7 @@ def createData(paths, output_res):
     
     tensor_image = transform(image)
     
-    list_images.append(2 * tensor_image - 1)
+    list_images.append(tensor_image / 127.5 - 1)
 
     nb_img = len(list_images)
 
@@ -121,11 +120,10 @@ def train(
       fake_logits = discriminator(fake_images.detach())
 
       Dreal_loss = torch.mean(F.relu(torch.ones_like(real_logits) - real_logits))
+      Dreal_loss.backward()
+      
       Dgen_loss = torch.mean(F.relu(torch.ones_like(fake_logits) + fake_logits))
-
-      D_loss = Dgen_loss + Dreal_loss
-
-      D_loss.backward(retain_graph=True)
+      Dgen_loss.backward()
 
       opt_D.step()
 
