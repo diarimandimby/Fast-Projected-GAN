@@ -1,3 +1,5 @@
+# Faster Projected GAN discriminator
+
 import torch
 from torch import nn
 import timm
@@ -6,7 +8,7 @@ import torch.nn.functional as F
 
 class DownBlock(nn.Module):
   def __init__(self, c_in, c_out):
-    super(DownBlock, self).__init__()
+    super().__init__()
     self.block = nn.Sequential(
         nn.utils.parametrizations.spectral_norm(
           nn.Conv2d(c_in, c_out, kernel_size=(4, 4), stride=2, padding=1)
@@ -20,7 +22,7 @@ class DownBlock(nn.Module):
 
 class DiscriminatorL1(nn.Module):
   def __init__(self, c1):
-    super(DiscriminatorL1, self).__init__()
+    super().__init__()
     self.block = nn.Sequential(
         DownBlock(c1, 64),
         DownBlock(64, 128),
@@ -36,7 +38,7 @@ class DiscriminatorL1(nn.Module):
 
 class DiscriminatorL2(nn.Module):
   def __init__(self, c2):
-    super(DiscriminatorL2, self).__init__()
+    super().__init__()
     self.block = nn.Sequential(
         DownBlock(c2, 128),
         DownBlock(128, 256),
@@ -51,7 +53,7 @@ class DiscriminatorL2(nn.Module):
 
 class DiscriminatorL3(nn.Module):
   def __init__(self, c3):
-    super(DiscriminatorL3, self).__init__()
+    super().__init__()
     self.block = nn.Sequential(
         DownBlock(c3, 256),
         DownBlock(256, 512),
@@ -65,7 +67,7 @@ class DiscriminatorL3(nn.Module):
 
 class DiscriminatorL4(nn.Module):
   def __init__(self, c4):
-    super(DiscriminatorL4, self).__init__()
+    super().__init__()
     self.block = nn.Sequential(
         DownBlock(c4, 512),
         nn.utils.parametrizations.spectral_norm(
@@ -78,10 +80,8 @@ class DiscriminatorL4(nn.Module):
 
 class CCM(nn.Module):
   def __init__(self, in_channels, out_channels):
-    super(CCM, self).__init__()
+    super().__init__()
     self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1), stride=1, padding=0, bias=True)
-
-    #torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
     
     for param in self.conv.parameters():
       param.requires_grad = False
@@ -91,12 +91,10 @@ class CCM(nn.Module):
 
 class CSM(nn.Module):
   def __init__(self, in_channels, out_channels):
-    super(CSM, self).__init__()
+    super().__init__()
     self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=(1, 1), stride=1, padding=0, bias=True, groups=1)
 
     self.skip_add = nn.quantized.FloatFunctional()
-
-    #torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
     
     for param in self.conv.parameters():
       param.requires_grad = False
@@ -115,7 +113,7 @@ class CSM(nn.Module):
 
 class ProjectedGANDiscriminator(nn.Module):
   def __init__(self):
-    super(ProjectedGANDiscriminator, self).__init__()
+    super().__init__()
 
     self.feature_extractor = timm.create_model(
         'tf_efficientnet_lite1.in1k',
