@@ -9,8 +9,7 @@ from generator import FastGANGenerator
 from discriminator import ProjectedGANDiscriminator
 from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 import torch.nn.functional as F
-import random
-from torchvision.transforms.v2 import GaussianBlur, PILToTensor
+from torchvision.transforms.v2 import PILToTensor
 
 device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
 
@@ -21,7 +20,7 @@ def createData(paths, output_res):
   for file in pbar:
     image = Image.open(file).convert("RGB").resize((output_res, output_res))
 
-    list_images.append(PILToTensor()(image).to(device).to(torch.float32) / 127.5 - 1)
+    list_images.append(PILToTensor()(image).to(torch.float32) / 127.5 - 1)
 
     nb_img = len(list_images)
 
@@ -35,25 +34,6 @@ def createDataLoader(paths, output_res, batch_size, shuffle=True):
     batch_size=batch_size,
     shuffle=shuffle
   )
-
-def addRandomGaussianNoise(tensor_images, noise_sigma_range):
-  """ Ajoute du bruit. """
-  color = random.randint(0, 1)
-  sigma = random.uniform(noise_sigma_range[0], noise_sigma_range[1])
-  if(color):
-    t = tensor_images + torch.randn_like(tensor_images)*sigma
-  else:
-    noise = torch.randn(1, tensor_images.shape[2], tensor_images.shape[3])*sigma
-    noise = noise.repeat(tensor_images.shape[0], 3, 1, 1)
-    t = tensor_images + noise.to(device)
-  return t
-
-def addRandomGaussianBlur(tensor_images, sigma_range):
-  kernel_size = random.randint(5, 21)
-  if(kernel_size % 2 == 0):
-    kernel_size += 1
-  blur_transform = GaussianBlur(kernel_size=kernel_size, sigma=(sigma_range[0], sigma_range[1]))
-  return blur_transform(tensor_images)
 
 def train(
   n_epochs,
@@ -98,17 +78,11 @@ def train(
 
       opt_D.zero_grad()
 
-      #real_images = addRandomGaussianNoise(real_images, [30, 50])
-      #real_images = addRandomGaussianBlur(real_images, [0.2, 3])
-
       real_logits = discriminator(real_images)
 
       latent_vectors = torch.randn(batch_size, 256, 1, 1).to(device)
       with torch.no_grad():
         fake_images = generator(latent_vectors)
-
-      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
 
       fake_logits = discriminator(fake_images.detach())
 
@@ -129,16 +103,13 @@ def train(
       latent_vectors = torch.randn(batch_size, 256, 1, 1).to(device)
       fake_images = generator(latent_vectors)
 
-      #fake_images = addRandomGaussianNoise(fake_images, [30, 50])
-      #fake_images = addRandomGaussianBlur(fake_images, [0.2, 3])
-
       fake_logits = discriminator(fake_images)
 
       G_loss = -torch.mean(fake_logits)
-
       G_loss.backward()
       
       opt_G.step()
+      
       gen_ema.update_parameters(generator)
 
     if((epoch + 1) % pfr == 0):
