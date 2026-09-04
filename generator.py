@@ -1,3 +1,12 @@
+# generator of Faster Projected GAN
+#
+# Sources: 
+#   - https://github.com/odegeasslbc/FastGAN-pytorch/blob/main/models.py
+#   - https://github.com/autonomousvision/projected-gan/blob/main/pg_modules/networks_fastgan.py
+#   - https://github.com/autonomousvision/projected-gan/blob/main/pg_modules/blocks.py
+#
+# Modified by Diarimandimby
+
 import torch
 from torch import nn
 
@@ -34,7 +43,7 @@ class SeparableConv2d(nn.Module):
 
 class SkipLayerExcitation(nn.Module):
     def __init__(self, c_in, c_out):
-        super(SkipLayerExcitation, self).__init__()
+        super().__init__()
 
         self.block = nn.Sequential(
             nn.AdaptiveAvgPool2d((4, 4)),
@@ -51,9 +60,11 @@ class SkipLayerExcitation(nn.Module):
     def forward(self, x_low, x_high):
         return x_high * self.block(x_low)
 
-class FastGANGenerator(nn.Module):
+# Faster Projected GAN generator use Separable convolution in the original upblock
+
+class FasterProjectedGANGenerator(nn.Module):
     def __init__(self, output_res=256):
-        super(FastGANGenerator, self).__init__()
+        super().__init__()
 
         multiplier_dict = {4: 16, 8: 8, 16: 4, 32: 2, 64: 2, 128: 1, 256: 0.5, 512: 0.25, 1024: 0.125}
 
