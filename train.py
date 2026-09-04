@@ -10,7 +10,7 @@ from discriminator import ProjectedGANDiscriminator
 from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 import torch.nn.functional as F
 import random
-from torchvision.transforms.v2 import GaussianBlur
+from torchvision.transforms.v2 import GaussianBlur, PILToTensor
 
 device = (torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
 
@@ -20,8 +20,8 @@ def createData(paths, output_res):
   list_images = []
   for file in pbar:
     image = Image.open(file).convert("RGB").resize((output_res, output_res))
-    
-    list_images.append(image.to(device).to(torch.float32) / 127.5 - 1)
+
+    list_images.append(PILToTensor()(image).to(device).to(torch.float32) / 127.5 - 1)
 
     nb_img = len(list_images)
 
