@@ -1,3 +1,6 @@
+# Module for preparing dataset and Training Faster Projected GAN
+# Implementation by Diarimandimby Riantsoa Kanto
+
 import torch
 from torch import nn
 from torch.optim import Adam
