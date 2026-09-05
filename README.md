@@ -26,14 +26,14 @@ For a quick start, try the [Colab](https://colab.research.google.com/drive/1szFF
 
 ## Citation
 ```bibtex
-@misc{wang2024fasterprojectedganfaster,
-      title              = {Faster Projected GAN: Towards Faster Few-Shot Image Generation}, 
-      author             = {Chuang Wang and Zhengping Li and Yuwen Hao and Lijun Wang and Xiaoxue Li},
-      year               = {2024},
-      eprint             = {2403.08778},
-      archivePrefix      = {arXiv},
-      primaryClass       = {cs.CV},
-      url                = {https://arxiv.org/abs/2403.08778}, 
+@misc{liu2021fasterstabilizedgantraining,
+      title={Towards Faster and Stabilized GAN Training for High-fidelity Few-shot Image Synthesis}, 
+      author={Bingchen Liu and Yizhe Zhu and Kunpeng Song and Ahmed Elgammal},
+      year={2021},
+      eprint={2101.04775},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2101.04775}, 
 }
 ```
 ```bibtex
@@ -42,5 +42,16 @@ For a quick start, try the [Colab](https://colab.research.google.com/drive/1szFF
   title          = {Projected GANs Converge Faster},
   booktitle      = {Advances in Neural Information Processing Systems (NeurIPS)},
   year           = {2021},
+}
+```
+```bibtex
+@misc{wang2024fasterprojectedganfaster,
+      title              = {Faster Projected GAN: Towards Faster Few-Shot Image Generation}, 
+      author             = {Chuang Wang and Zhengping Li and Yuwen Hao and Lijun Wang and Xiaoxue Li},
+      year               = {2024},
+      eprint             = {2403.08778},
+      archivePrefix      = {arXiv},
+      primaryClass       = {cs.CV},
+      url                = {https://arxiv.org/abs/2403.08778}, 
 }
 ```
