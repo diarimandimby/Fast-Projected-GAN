@@ -120,7 +120,7 @@ def train(
       with torch.no_grad():
         sample_images = gen_ema(test_latents)
 
-      fig, axes = plt.subplots(5, 6, figsize=(8, 2))
+      fig, axes = plt.subplots(5, 6, figsize=(12, 10))
       plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
       for nrow in range(5):
         for ncol in range(6):
