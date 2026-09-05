@@ -21,7 +21,7 @@ cd Faster-Projected-GAN
 ## Using Faster PG in your own project
 ```
 from discriminator import ProjectedGANDiscriminator
-D = ProjectedDiscriminator()
+D = ProjectedGANDiscriminator()
 ```
 
 ```
@@ -29,7 +29,7 @@ from generator import FasterProjectedGANGenerator
 G = FasterProjectedGANGenerator()
 ```
 
-For a quick start, try the [Colab](https://colab.research.google.com/drive/1szFFNKWGomsLt4-95aFGVxg8suv4J7jK)
+For a quick start, try the [Colab notebook](https://colab.research.google.com/drive/1szFFNKWGomsLt4-95aFGVxg8suv4J7jK)
 
 ## Citation
 ```bibtex
