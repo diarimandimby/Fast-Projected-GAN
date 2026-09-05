@@ -43,6 +43,7 @@ def train(
   batch_size,
   data_loader,
   checkpoint_path,
+  log_path,
   output_res, 
   glr=0.0002, 
   dlr=0.0002, 
@@ -128,7 +129,8 @@ def train(
 
           axes[nrow, ncol].imshow(outputs.cpu().permute(1, 2, 0).numpy())
           axes[nrow, ncol].axis('off')
-      plt.show()
+      
+      fig.savefig(f'{log_path}/{epoch + 1}.png', transparent=False, dpi=80, bbox_inches="tight")
 
     if((epoch + 1) % s == 0):
       torch.save({
