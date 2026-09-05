@@ -1,7 +1,7 @@
  # Faster Projected GAN
 
-This repository contains the PyTorch implementation of Faster Projected GAN in paper *"Faster Projected GAN: Towards Faster
-Few-Shot Image Generation"*.<br>If this repo is helpful, please help to ⭐ it or recommend it to your friends 😊.<br><br><br><br>
+This repository contains PyTorch implementation of Faster Projected GAN introduced in the paper [Faster Projected GAN: Towards Faster
+Few-Shot Image Generation](https://arxiv.org/abs/2403.08778v1).<br><br><br><br>
 
 <div align='center'>
  <img alt="YOUR-ALT-TEXT" width=450 src="outputs.gif">
@@ -62,3 +62,4 @@ For a quick start, try the [Colab](https://colab.research.google.com/drive/1szFF
       url                = {https://arxiv.org/abs/2403.08778}, 
 }
 ```
+If this repo is helpful, please help to ⭐ it or recommend it to your friends 😊.
