@@ -1,5 +1,5 @@
 # Module for preparing dataset and Training Faster Projected GAN
-# Implementation by Diarimandimby Riantsoa Kanto
+# Author : Diarimandimby Riantsoa Kanto
 
 import torch
 from torch import nn
@@ -48,12 +48,12 @@ def train(
   dlr=0.0002, 
   betas=(0.0, 0.99), 
   eps=1e-8,
-  pfr=1, 
-  sfr=100, 
+  p=1, 
+  s=100,
   checkpoint_file=''
 ):
   discriminator = ProjectedGANDiscriminator().to(device)
-  generator = FastGANGenerator(output_res).to(device)
+  generator = FasterProjectedGANGenerator(output_res).to(device)
   opt_G = Adam(generator.parameters(), lr=glr, betas=betas, eps=eps)
   opt_D = Adam(discriminator.parameters(), lr=dlr, betas=betas, eps=eps)
   gen_ema = AveragedModel(generator, multi_avg_fn=get_ema_multi_avg_fn(decay=0.999))
@@ -69,7 +69,7 @@ def train(
   else:
     k = 0
   
-  test_latents = torch.randn(4, 256, 1, 1).to(device)
+  test_latents = torch.randn(30, 256, 1, 1).to(device)
   
   for epoch in range(k, n_epochs):
     
@@ -115,20 +115,22 @@ def train(
       
       gen_ema.update_parameters(generator)
 
-    if((epoch + 1) % pfr == 0):
+    if((epoch + 1) % p == 0):
 
       with torch.no_grad():
         sample_images = gen_ema(test_latents)
 
-      fig, axes = plt.subplots(1, 4, figsize=(8, 2))
-      for ncol in range(4):
-        outputs = (sample_images[ncol] + 1) /2
+      fig, axes = plt.subplots(5, 6, figsize=(8, 2))
+      plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+      for nrow in range(5):
+        for ncol in range(6):
+          outputs = (sample_images[nrow + ncol] + 1) /2
 
-        axes[ncol].imshow(outputs.cpu().permute(1, 2, 0).numpy())
-        axes[ncol].axis('off')
+          axes[nrow, ncol].imshow(outputs.cpu().permute(1, 2, 0).numpy())
+          axes[nrow, ncol].axis('off')
       plt.show()
 
-    if((epoch + 1) % sfr == 0):
+    if((epoch + 1) % s == 0):
       torch.save({
         'epoch': epoch + 1,
         'generator': generator.state_dict(),
