@@ -123,14 +123,24 @@ def train(
 
       fig, axes = plt.subplots(4, 6, figsize=(12, 8))
       plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+
       for nrow in range(4):
         for ncol in range(6):
-          outputs = (sample_images[nrow + ncol] + 1) /2
-
+          img_idx = nrow * 6 + ncol
+          outputs = (sample_images[img_idx] + 1) / 2
+          
           axes[nrow, ncol].imshow(outputs.cpu().permute(1, 2, 0).numpy())
           axes[nrow, ncol].axis('off')
+
+      fig.savefig(
+        f"{log_path}/{epoch + 1}.png",
+        transparent=False,
+        dpi=80,
+        pad_inches=0,
+        bbox_inches=None,
+      )
       
-      fig.savefig(f'{log_path}/{epoch + 1}.png', transparent=False, dpi=80, bbox_inches="tight")
+      plt.close(fig)
 
     if((epoch + 1) % s == 0):
       torch.save({
