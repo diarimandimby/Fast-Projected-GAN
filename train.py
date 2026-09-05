@@ -69,7 +69,7 @@ def train(
   else:
     k = 0
   
-  test_latents = torch.randn(30, 256, 1, 1).to(device)
+  test_latents = torch.randn(24, 256, 1, 1).to(device)
   
   for epoch in range(k, n_epochs):
     
@@ -120,9 +120,9 @@ def train(
       with torch.no_grad():
         sample_images = gen_ema(test_latents)
 
-      fig, axes = plt.subplots(5, 6, figsize=(12, 10))
+      fig, axes = plt.subplots(4, 6, figsize=(12, 10))
       plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-      for nrow in range(5):
+      for nrow in range(4):
         for ncol in range(6):
           outputs = (sample_images[nrow + ncol] + 1) /2
 
