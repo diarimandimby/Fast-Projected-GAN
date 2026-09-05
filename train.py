@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from PIL import Image
-from generator import FastGANGenerator
+from generator import FasterProjectedGANGenerator
 from discriminator import ProjectedGANDiscriminator
 from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 import torch.nn.functional as F
@@ -76,7 +76,7 @@ def train(
     for i, real_images in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}")):
 
       # --------------------------------------------
-      # Entraînement du Discriminateur
+      # Train discriminator
       # --------------------------------------------
 
       opt_D.zero_grad()
@@ -98,7 +98,7 @@ def train(
       opt_D.step()
 
       # --------------------------------------------
-      # Entraînement du Générateur
+      # Train generator
       # --------------------------------------------
 
       opt_G.zero_grad()
