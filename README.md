@@ -3,6 +3,10 @@
 This repository contains the PyTorch implementation of Faster Projected GAN in paper *"Faster Projected GAN: Towards Faster
 Few-Shot Image Generation"*.
 
+<p align='center'>
+<img alt="YOUR-ALT-TEXT" width=600 src="outputs.gif">
+</p>
+
 ## Installation
 Clone repo
 
