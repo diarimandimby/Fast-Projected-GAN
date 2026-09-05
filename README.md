@@ -1,10 +1,15 @@
-# Faster Projected GAN
+# Faster Projected GAN (Faster PG)
 
 This repository contains the implementation of Faster Projected GAN in paper *"Faster Projected GAN: Towards Faster
 Few-Shot Image Generation"* with PyTorch.
 
 For a quick start, try the Colab: &nbsp; [![Projected GAN Quickstart](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1szFFNKWGomsLt4-95aFGVxg8suv4J7jK)
 
+## Using Faster PG in your own project
+```
+from pg_modules.discriminator import ProjectedDiscriminator
+D = ProjectedDiscriminator()
+```
 ## Citation
 ```bibtex
 @misc{wang2024fasterprojectedganfaster,
